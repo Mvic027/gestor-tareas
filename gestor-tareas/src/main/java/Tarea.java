@@ -1,4 +1,5 @@
 
+
 public class Tarea {
 	private final int id;
 	private static int numero =1 ;
@@ -48,7 +49,6 @@ public class Tarea {
 	public String getDescripcion() {
 		return descripcion;
 	}
-
 
 	@Override
 	public String toString() {
