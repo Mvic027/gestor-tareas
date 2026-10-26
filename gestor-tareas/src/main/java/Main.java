@@ -1,4 +1,5 @@
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -35,15 +36,32 @@ public class Main {
 				break;
 			}
 			case 2: {
-				System.out.println("Listando Tareas:");
-				gestor.listar();
-				break;
+			    System.out.println("Listando tareas:");
+			    List<Tarea> lista = gestor.getTareas();
+			    if (lista.isEmpty()) {
+			        System.out.println("No hay tareas disponibles");
+			    } else {
+			        for (Tarea t : lista) {
+			            System.out.println(t);
+			        }
+			    }
+			    break;
 			}
 			case 3: {
-				System.out.print("Introduzca el id de la tarea que desea completar: ");
-				int id=sc.nextInt();
-				gestor.completarTarea(id);
-				break;
+			    System.out.print("Introduzca el id de la tarea que desea completar: ");
+			    int id = sc.nextInt();
+			    sc.nextLine();
+
+			    Tarea t = gestor.buscarTarea(id);
+			    if (t == null) {
+			        System.out.println("No existe ninguna tarea con id " + id + ".");
+			    } else if (t.isCompletada()) {
+			        System.out.println("La tarea " + id + " ya estaba completada.");
+			    } else {
+			        t.completar();
+			        System.out.println("Completada: " + t);
+			    }
+			    break;
 			}
 			default:
 
