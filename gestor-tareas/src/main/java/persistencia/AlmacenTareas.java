@@ -1,0 +1,62 @@
+package persistencia;
+
+import modelo.Tarea;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
+public class AlmacenTareas {
+	private final static Path FICHERO = Path.of("tareas.txt");
+
+	public void guardar(List<Tarea> tareas) {
+		List<String> lineas = new ArrayList<>();
+
+		for (Tarea t : tareas) {
+			String fecha;
+			if (t.getFechaLimite() == null) {
+				fecha = "";
+			} else {
+				fecha = t.getFechaLimite();
+			}
+			lineas.add(t.getDescripcion() + ";" + t.isCompletada() + ";" + fecha);
+		}
+		try {
+			Files.write(FICHERO, lineas);
+		} catch (IOException e) {
+			System.err.println("Error al guardar las tareas: " + e.getMessage());
+		}
+
+	}
+
+	public List<Tarea> cargar() {
+		List<Tarea> tareas = new ArrayList<>();
+
+		if (!Files.exists(FICHERO)) {
+			return tareas;
+		}
+		try {
+			for (String linea : Files.readAllLines(FICHERO)) {
+				String[] partes = linea.split(";", -1);
+				String descripccion = partes[0];
+				Boolean completada = Boolean.parseBoolean(partes[1]);
+				String fecha;
+				if (partes[2].isEmpty()) {
+					fecha = null;
+				} else {
+					fecha = partes[2];
+				}
+				Tarea t = new Tarea(descripccion, fecha);
+				if (completada) {
+					t.completar();
+				}
+				tareas.add(t);
+			}
+		} catch (IOException e) {
+			System.err.println("Error al cargar las tareas: " + e.getMessage());
+		}
+		return tareas;
+	}
+
+}
