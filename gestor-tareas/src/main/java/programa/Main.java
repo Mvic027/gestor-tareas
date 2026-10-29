@@ -19,10 +19,8 @@ public class Main {
 			System.out.println("3. Completar Tarea");
 			System.out.println("4. Eliminar Tarea");
 			System.out.println("0. Salir");
-			System.out.print("Elige una opción: ");
 
-			int opcion = sc.nextInt();
-			sc.nextLine();
+			int opcion = leerEntero(sc, "Elige una opción: ");
 
 			switch (opcion) {
 			case 0: {
@@ -58,9 +56,7 @@ public class Main {
 				break;
 			}
 			case 3: {
-				System.out.print("Introduzca el id de la tarea que desea completar: ");
-				int id = sc.nextInt();
-				sc.nextLine();
+				int id = leerEntero(sc, "Introduzca el id de la tarea que desea completar: ");
 
 				Tarea t = gestor.buscarTarea(id);
 				if (t == null) {
@@ -99,5 +95,16 @@ public class Main {
 		}
 		sc.close();
 
+	}
+	private static int leerEntero(Scanner sc, String mensaje) {
+	    while (true) {
+	        System.out.print(mensaje);
+	        String linea = sc.nextLine().trim();
+	        try {
+	            return Integer.parseInt(linea);
+	        } catch (NumberFormatException e) {
+	            System.out.println("Introduce un número válido.");
+	        }
+	    }
 	}
 }

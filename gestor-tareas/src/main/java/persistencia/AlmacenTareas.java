@@ -20,7 +20,7 @@ public class AlmacenTareas {
 			} else {
 				fecha = t.getFechaLimite();
 			}
-			lineas.add(t.getDescripcion() + ";" + t.isCompletada() + ";" + fecha);
+			lineas.add(fecha + ";" + t.isCompletada() + ";" + t.getDescripcion());
 		}
 		try {
 			Files.write(FICHERO, lineas);
@@ -38,14 +38,14 @@ public class AlmacenTareas {
 		}
 		try {
 			for (String linea : Files.readAllLines(FICHERO)) {
-				String[] partes = linea.split(";", -1);
-				String descripccion = partes[0];
+				String[] partes = linea.split(";", 3);
+				String descripccion = partes[2];
 				Boolean completada = Boolean.parseBoolean(partes[1]);
 				String fecha;
-				if (partes[2].isEmpty()) {
+				if (partes[0].isEmpty()) {
 					fecha = null;
 				} else {
-					fecha = partes[2];
+					fecha = partes[0];
 				}
 				Tarea t = new Tarea(descripccion, fecha);
 				if (completada) {
