@@ -1,5 +1,8 @@
 package programa;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,6 +10,7 @@ import modelo.GestorTareas;
 import modelo.Tarea;
 
 public class Main {
+	private static final DateTimeFormatter FORMATO = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		GestorTareas gestor = new GestorTareas();
@@ -35,8 +39,7 @@ public class Main {
 					System.out.println("La descripción no puede estar vacía.");
 					break;
 				}
-				System.out.print("Fecha límite (dd/mm/aaaa) o Enter para omitir: ");
-				String fech = sc.nextLine().trim();
+			LocalDate fech = leerFecha(sc, "Fecha límite (dd/mm/aaaa) o Enter para omitir: ");
 
 				Tarea t = gestor.anadir(desc, fech);
 				System.out.println("Tarea creada: " + t);
@@ -50,7 +53,11 @@ public class Main {
 					System.out.println("No hay tareas disponibles");
 				} else {
 					for (Tarea t : lista) {
-						System.out.println(t);
+						System.out.print(t);
+						if(LocalDate.parse(t.getFechaLimite(),FORMATO).isBefore(LocalDate.now())) {
+							System.out.println(" ¡ATRASADA!");
+						}
+						else System.out.println("");
 					}
 				}
 				break;
@@ -104,6 +111,18 @@ public class Main {
 	            return Integer.parseInt(linea);
 	        } catch (NumberFormatException e) {
 	            System.out.println("Introduce un número válido.");
+	        }
+	    }
+	}
+	private static LocalDate leerFecha(Scanner sc, String mensaje) {
+	    while (true) {
+	        System.out.print(mensaje);
+	        String linea = sc.nextLine().trim();
+	        if(linea.isEmpty()) return null;
+	        try {
+	            return LocalDate.parse(linea,FORMATO);
+	        } catch (DateTimeParseException e) {
+	            System.out.println("Introduce una fecha válido.");
 	        }
 	    }
 	}

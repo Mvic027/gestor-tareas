@@ -1,5 +1,6 @@
 package modelo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -14,9 +15,9 @@ public class GestorTareas {
 		tareas.addAll(almacen.cargar());
 	}
 
-	public Tarea anadir(String desc, String fech) {
+	public Tarea anadir(String desc, LocalDate fech) {
 		Tarea tarea;
-		if (fech.isEmpty()) {
+		if (fech==null) {
 			tarea = new Tarea(desc);
 		} else {
 			tarea = new Tarea(desc, fech);

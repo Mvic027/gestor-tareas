@@ -4,11 +4,14 @@ import modelo.Tarea;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AlmacenTareas {
 	private final static Path FICHERO = Path.of("tareas.txt");
+	private static final DateTimeFormatter FORMATO = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	public void guardar(List<Tarea> tareas) {
 		List<String> lineas = new ArrayList<>();
@@ -41,11 +44,11 @@ public class AlmacenTareas {
 				String[] partes = linea.split(";", 3);
 				String descripccion = partes[2];
 				Boolean completada = Boolean.parseBoolean(partes[1]);
-				String fecha;
+				LocalDate fecha;
 				if (partes[0].isEmpty()) {
 					fecha = null;
 				} else {
-					fecha = partes[0];
+					fecha = LocalDate.parse(partes[0],FORMATO);
 				}
 				Tarea t = new Tarea(descripccion, fecha);
 				if (completada) {
