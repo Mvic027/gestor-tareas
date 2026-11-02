@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class Tarea {
 	private int id;
 	private static int numero = 1;
-	private final String descripcion;
+	private String descripcion;
 	private boolean completada;
 	private LocalDate fechaLimite;
 	
@@ -50,6 +50,10 @@ public class Tarea {
 	public String getDescripcion() {
 		return descripcion;
 	}
+	
+	protected void setDescripcion(String desc) {
+		 this.descripcion=desc;
+	}
 
 	static void reducirNumero() {
 		numero--;
@@ -67,5 +71,15 @@ public class Tarea {
 			marca = "x";
 		}
 		return "[" + id + "] [" + marca + "] " + descripcion + fecha;
+	}
+
+	public void setFechaLimite(LocalDate fecha) {
+		this.fechaLimite=fecha;
+		
+	}
+
+	public boolean isAtrasada() {
+		if(this.fechaLimite==null) return false;
+		return this.fechaLimite.isBefore(LocalDate.now());
 	}
 }

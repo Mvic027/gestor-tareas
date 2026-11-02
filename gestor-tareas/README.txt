@@ -45,6 +45,7 @@ java -cp target/classes Main
 2. Listar tareas
 3. Completar Tarea
 4. Eliminar Tarea
+5. Editar Tarea
 0. Salir
 Elige una opción: 1
 Añada una descripción a la tarea que desea añadir: Estudiar ISO
@@ -82,7 +83,6 @@ El proyecto separa la interfaz de usuario (`Main`), la lógica (`modelo`) y el a
 ## Próximas mejoras
 
 - Guardado en base de datos SQLite
-- Editar la descripción o la fecha de una tarea
 - Filtrar entre tareas pendientes y completadas
 - Ordenar tareas por fecha límite
 - Prioridades

@@ -2,7 +2,6 @@ package modelo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import java.util.List;
 
 import persistencia.AlmacenTareas;
@@ -15,13 +14,8 @@ public class GestorTareas {
 		tareas.addAll(almacen.cargar());
 	}
 
-	public Tarea anadir(String desc, LocalDate fech) {
-		Tarea tarea;
-		if (fech==null) {
-			tarea = new Tarea(desc);
-		} else {
-			tarea = new Tarea(desc, fech);
-		}
+	public Tarea anadir(String desc, LocalDate fecha) {
+		Tarea tarea = new Tarea(desc, fecha);
 		tareas.add(tarea);
 		almacen.guardar(tareas);
 		return tarea;
@@ -43,12 +37,22 @@ public class GestorTareas {
 	public void eliminarTarea(Tarea t) {
 		if (tareas.remove(t)) {
 			actualizarId(t);
+			almacen.guardar(tareas);
 		}
-		almacen.guardar(tareas);
 	}
 
 	public void completarTarea(Tarea t) {
 		t.completar();
+		almacen.guardar(tareas);
+	}
+
+	public void actualizarDescripcion(Tarea t, String desc) {
+		t.setDescripcion(desc);
+		almacen.guardar(tareas);
+	}
+
+	public void actualizarFecha(Tarea t, LocalDate fecha) {
+		t.setFechaLimite(fecha);
 		almacen.guardar(tareas);
 	}
 
@@ -61,6 +65,4 @@ public class GestorTareas {
 		}
 		Tarea.reducirNumero();
 	}
-
-
 }
